@@ -1,5 +1,6 @@
 import ItemList from "../ItemList/ItemList";
 import PersonDetails from "../PersonDetails/PersonDetails";
+import Row from "../Row/Row";
 import {Component} from "react";
 import ErrorIndicator from "../ErrorIndicator/ErrorIndicator";
 import StarDbAPIService from "../../api";
@@ -26,23 +27,16 @@ export default class PeoplePage extends Component {
 		if (isError) {
 			return <ErrorIndicator />
 		}
+		const peopleList = <ItemList
+			onItemSelected={this.onPersonSelected}
+			getItems={apiService.getPeople}
+			renderItem={({name, gender, birthYear}) => `${name} (${gender}, ${birthYear})` }
+		/>;
+		const personDetailed = selectedPersonId
+			? <PersonDetails personId={selectedPersonId}/>
+			: <p>Choose the character from the list</p>
 		return (
-			<div className="row mb-2">
-				<div className="col-md-6">
-					<ItemList
-						onItemSelected={this.onPersonSelected}
-						getItems={apiService.getPeople}
-						renderItem={({name, gender, birthYear}) => `${name} (${gender}, ${birthYear})` }
-					/>
-				</div>
-				<div className="col-md-6">
-					{
-						selectedPersonId
-							? ( <PersonDetails personId={selectedPersonId}/> )
-							: (<p>Choose the character from the list</p>)
-					}
-				</div>
-			</div>
+			<Row leftElement={peopleList} rightElement={personDetailed} />
 		)
 	}
 }
