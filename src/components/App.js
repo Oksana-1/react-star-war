@@ -10,7 +10,7 @@ import "./App.css";
 export default class App extends Component {
   state = {
     isRandomPlanet: true,
-    selectedPerson: null
+    selectedPersonId: null
   }
   toggleRandomPlanet = () => {
     this.setState((state) => {
@@ -19,13 +19,13 @@ export default class App extends Component {
       }
     })
   }
-  onPersonSelected = (selectedPerson) => {
+  onPersonSelected = (selectedPersonId) => {
     this.setState({
-      selectedPerson
+      selectedPersonId
     })
   }
   render() {
-    const {isRandomPlanet, selectedPerson} = this.state;
+    const {isRandomPlanet, selectedPersonId} = this.state;
     return (
       <div className="container">
         <AppHeader />
@@ -44,7 +44,11 @@ export default class App extends Component {
             <ItemList onItemSelected={this.onPersonSelected}/>
           </div>
           <div className="col-md-6">
-            <PersonDetails personId={selectedPerson}/>
+            {
+              selectedPersonId
+                ? ( <PersonDetails personId={selectedPersonId}/> )
+                : (<p>Choose the character from the list</p>)
+            }
           </div>
         </div>
       </div>

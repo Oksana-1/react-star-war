@@ -18,7 +18,6 @@ export default class ItemList extends Component {
 			.catch(this.onError)
 	}
 	onDataLoaded = (people) => {
-		console.log(people);
 		this.setState({
 			people,
 			isLoading: false,

@@ -1,39 +1,57 @@
 import React, { Component } from "react";
-
+import Spinner from "../Spinner/Spinner";
+import ErrorIndicator from "../ErrorIndicator/ErrorIndicator";
+import PersonView from "../PersonView/PersonView";
+import StarDbAPIService from "../../api";
 import "./PersonDetails.css";
+const apiService = new StarDbAPIService();
 
 export default class PersonDetails extends Component {
 	state = {
-		person: {}
+		person: {},
+		isLoading: false,
+		isError: false
 	}
-	componentDidUpdate(prevProps, prevState, snapshot) {
+	updatePerson() {
+		const {personId} = this.props;
+		if (!personId) return;
+		this.setState({
+			isLoading: true,
+		});
+		apiService.getPersonById(personId)
+		.then(this.onDataLoaded)
+		.catch(this.onError)
+	}
+	onDataLoaded = (person) => {
+		this.setState({
+			person,
+			isLoading: false,
+		})
+	}
+	onError = () => {
+		this.setState({
+			isError: true,
+			isLoading: false,
+		});
+	}
+	componentDidMount() {
+		this.updatePerson();
+	}
+
+	componentDidUpdate(prevProps) {
+		if (this.props.personId === prevProps.personId) return;
+		this.updatePerson();
 	}
 
 	render() {
+		const { person, isLoading, isError } = this.state;
 		return (
 			<div className="person-details card">
-				<img className="person-image"
-						 src="https://starwars-visualguide.com/assets/img/characters/3.jpg"
-						 alt="person"
-				/>
-
-				<div className="card-body">
-					<h4>R2-D2</h4>
-					<ul className="list-group list-group-flush">
-						<li className="list-group-item">
-							<span className="term">Gender</span>
-							<span>male</span>
-						</li>
-						<li className="list-group-item">
-							<span className="term">Birth Year</span>
-							<span>43</span>
-						</li>
-						<li className="list-group-item">
-							<span className="term">Eye Color</span>
-							<span>red</span>
-						</li>
-					</ul>
-				</div>
+			{
+				isError ? <ErrorIndicator/> :
+					isLoading ? <Spinner/> :
+						<PersonView person={person}/>
+			}
 			</div>
 		)
 	}
