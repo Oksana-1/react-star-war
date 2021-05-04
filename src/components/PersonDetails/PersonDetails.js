@@ -3,6 +3,11 @@ import React, { Component } from "react";
 import "./PersonDetails.css";
 
 export default class PersonDetails extends Component {
+	state = {
+		person: {}
+	}
+	componentDidUpdate(prevProps, prevState, snapshot) {
+	}
 
 	render() {
 		return (
