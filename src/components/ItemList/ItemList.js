@@ -1,25 +1,22 @@
 import React, { Component } from "react";
-import StarDbAPIService from "../../api";
 import "./ItemList.css";
 import Spinner from "../Spinner/Spinner";
 import ErrorIndicator from "../ErrorIndicator/ErrorIndicator";
 
-const apiService = new StarDbAPIService();
-
 export default class ItemList extends Component {
 	state = {
-		people: [],
+		items: [],
 		isLoading: true,
 		isError: false
 	}
-	updatePeople() {
-		apiService.getPeople()
+	updatePeople = () => {
+		this.props.getItems()
 			.then(this.onDataLoaded)
 			.catch(this.onError)
 	}
-	onDataLoaded = (people) => {
+	onDataLoaded = (items) => {
 		this.setState({
-			people,
+			items,
 			isLoading: false,
 		})
 	}
@@ -46,14 +43,14 @@ export default class ItemList extends Component {
 		})
 	}
 	render() {
-		const { people, isError, isLoading} = this.state;
+		const { items, isError, isLoading} = this.state;
 
 		return (
 			<ul className="item-list list-group">
 				{
 					isError ? <ErrorIndicator/> :
 						isLoading ? <Spinner/> :
-							this.renderItems(people)
+							this.renderItems(items)
 				}
 			</ul>
 		);

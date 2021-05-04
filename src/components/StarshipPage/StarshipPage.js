@@ -1,19 +1,18 @@
 import ItemList from "../ItemList/ItemList";
-import PersonDetails from "../PersonDetails/PersonDetails";
 import {Component} from "react";
 import ErrorIndicator from "../ErrorIndicator/ErrorIndicator";
 import StarDbAPIService from "../../api";
 
 const apiService = new StarDbAPIService();
 
-export default class PeoplePage extends Component {
+export default class StarshipPage extends Component {
 	state = {
-		selectedPersonId: null,
+		selectedStarshipId: null,
 		isError: false
 	}
-	onPersonSelected = (selectedPersonId) => {
+	onStarshipSelected = (selectedStarshipId) => {
 		this.setState({
-			selectedPersonId
+			selectedStarshipId
 		})
 	}
 	componentDidCatch(error, errorInfo) {
@@ -22,7 +21,7 @@ export default class PeoplePage extends Component {
 		})
 	}
 	render() {
-		const {selectedPersonId, isError } = this.state;
+		const {selectedStarshipId, isError } = this.state;
 		if (isError) {
 			return <ErrorIndicator />
 		}
@@ -30,16 +29,12 @@ export default class PeoplePage extends Component {
 			<div className="row mb-2">
 				<div className="col-md-6">
 					<ItemList
-						onItemSelected={this.onPersonSelected}
-						getItems={apiService.getPeople}
+						onItemSelected={this.onStarshipSelected}
+						getItems={apiService.getStarships}
 					/>
 				</div>
 				<div className="col-md-6">
-					{
-						selectedPersonId
-							? ( <PersonDetails personId={selectedPersonId}/> )
-							: (<p>Choose the character from the list</p>)
-					}
+
 				</div>
 			</div>
 		)

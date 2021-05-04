@@ -3,6 +3,8 @@ import React, {Component} from 'react';
 import AppHeader from "./AppHeader/AppHeader";
 import RandomPlanet from "./RandomPlanet/RandomPlanet";
 import PeoplePage from "./PeoplePage/PeoplePage";
+import PlanetsPage from "./PlanetsPage/PlanetsPage";
+import StarshipPage from "./StarshipPage/StarshipPage";
 import ErrorIndicator from "./ErrorIndicator/ErrorIndicator";
 
 import "./App.css";
@@ -44,6 +46,8 @@ export default class App extends Component {
           </button>
         </p>
         <PeoplePage />
+        <PlanetsPage />
+        <StarshipPage />
       </div>
     );
   }

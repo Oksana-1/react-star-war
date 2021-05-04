@@ -6,27 +6,29 @@ export default class StarDbAPIService {
 	planetsUrl = this._apiBase + "/planets";
 	starshipUrl = this._apiBase + "/starships";
 	imageBaseUrl = "https://starwars-visualguide.com//assets/img";
-	async getPeople() {
+	getPeople = async () => {
 		const people = (await getResource(this.peopleUrl)).results;
 		return people.map((person) => this._transformPerson(person));
 	}
-	async getPersonById(id) {
+	getPersonById = async (id) => {
 		const person = await getResource(`${this.peopleUrl}/${id}`);
 		return this._transformPerson(person);
 	}
-	async getPlanets() {
-		const planets = await getResource(this.planetsUrl)
+	getPlanets = async () => {
+		const planets = (await getResource(this.planetsUrl)).results
 		return planets.map((planet) => this._transformPlanet(planet));
 	}
-	async getPlanetById(id) {
+	getPlanetById = async (id) => {
 		const planet = await getResource(`${this.planetsUrl}/${id}`);
 		return this._transformPlanet(planet);
 	}
-	async getStarship() {
-		return await getResource(this.starshipUrl);
+	getStarships = async () => {
+		const starships = (await getResource(this.starshipUrl)).results;
+		return starships.map((starship) => this._transformStarship(starship));
 	}
-	async getStarshipById(id) {
-		return await getResource(`${this.starshipUrl}/${id}`);
+	getStarshipById = async (id) => {
+		const starship = await getResource(`${this.starshipUrl}/${id}`);
+		return this._transformStarship(starship);
 	}
 	_extractId(item) {
 		const urlRegex = /\/([0-9]*)\/$/;
@@ -48,6 +50,19 @@ export default class StarDbAPIService {
 			gender: person.gender,
 			birthYear: person.birth_year,
 			eyeColor: person.eye_color
+		}
+	}
+	_transformStarship = (starship) => {
+		return {
+			id: this._extractId(starship),
+			name: starship.name,
+			model: starship.model,
+			manufacturer: starship.manufacturer,
+			costInCredits: starship.costInCredits,
+			length: starship.length,
+			crew: starship.crew,
+			passengers: starship.passengers,
+			cargoCapacity: starship.cargoCapacity
 		}
 	}
 }
