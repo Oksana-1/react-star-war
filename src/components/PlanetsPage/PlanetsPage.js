@@ -5,7 +5,7 @@ import StarDbAPIService from "../../api";
 
 const apiService = new StarDbAPIService();
 
-export default class PlanetsPage extends Component{
+export default class PlanetsPage extends Component {
 	state = {
 		selectedPlanetId: null,
 		isError: false
@@ -31,6 +31,7 @@ export default class PlanetsPage extends Component{
 					<ItemList
 						onItemSelected={this.onPlanetSelected}
 						getItems={apiService.getPlanets}
+						renderItem={(item) => `${item.name} (${item.diameter})` }
 					/>
 				</div>
 			</div>

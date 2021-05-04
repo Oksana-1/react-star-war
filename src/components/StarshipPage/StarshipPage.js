@@ -31,6 +31,7 @@ export default class StarshipPage extends Component {
 					<ItemList
 						onItemSelected={this.onStarshipSelected}
 						getItems={apiService.getStarships}
+						renderItem={(item) => (<span className="text-info">{item.name}</span>) }
 					/>
 				</div>
 				<div className="col-md-6">

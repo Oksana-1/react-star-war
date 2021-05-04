@@ -30,14 +30,15 @@ export default class ItemList extends Component {
 		this.updatePeople();
 	}
 	renderItems(array) {
-		return array.map(({ id, name }) => {
+		return array.map((item) => {
+			const label = this.props.renderItem(item)
 			return (
 				<li
 					className="list-group-item"
-					key={id}
-					onClick={() => this.props.onItemSelected(id)}
+					key={ item.id }
+					onClick={() => this.props.onItemSelected(item.id)}
 				>
-					{ name }
+					{ label }
 				</li>
 			);
 		})
