@@ -1,13 +1,11 @@
 import React from "react";
-import StarDbAPIService from "../../api";
-const apiService = new StarDbAPIService();
 
-const PersonView = ({person}) => {
-	const {id, name, gender, birthYear, eyeColor} = person;
+const ItemView = ({item, getImageUrl}) => {
+	const {id, name, gender, birthYear, eyeColor} = item;
 	return (
 		<React.Fragment>
 			<img className="person-image"
-					 src={`${apiService.imageBaseUrl}/characters/${id}.jpg`}
+					 src={getImageUrl(id)}
 					 alt="person"
 			/>
 			<div className="card-body">
@@ -30,4 +28,4 @@ const PersonView = ({person}) => {
 		</React.Fragment>
 	)
 };
-export default PersonView;
+export default ItemView;

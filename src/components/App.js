@@ -1,15 +1,14 @@
 import React, {Component} from 'react';
-
 import AppHeader from "./AppHeader/AppHeader";
 import RandomPlanet from "./RandomPlanet/RandomPlanet";
-import PeoplePage from "./PeoplePage/PeoplePage";
-import PlanetsPage from "./PlanetsPage/PlanetsPage";
-import StarshipPage from "./StarshipPage/StarshipPage";
+import ItemPage from "./ItemPage/ItemPage";
 import ErrorIndicator from "./ErrorIndicator/ErrorIndicator";
+import StarDbAPIService from "../api";
 
 import "./App.css";
 
 export default class App extends Component {
+  api = new StarDbAPIService();
   state = {
     isRandomPlanet: true,
     selectedPersonId: null,
@@ -45,9 +44,11 @@ export default class App extends Component {
             Toggle Random Planet
           </button>
         </p>
-        <PeoplePage />
-        <PlanetsPage />
-        <StarshipPage />
+        <ItemPage
+          getData={this.api.getPeople}
+          getItemById={this.api.getPersonById}
+          getImageUrl={this.api.getPersonImageUrl}
+        />
       </div>
     );
   }

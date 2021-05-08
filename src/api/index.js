@@ -6,6 +6,15 @@ export default class StarDbAPIService {
 	planetsUrl = this._apiBase + "/planets";
 	starshipUrl = this._apiBase + "/starships";
 	imageBaseUrl = "https://starwars-visualguide.com//assets/img";
+	getPersonImageUrl = (id) => {
+		return `${this.imageBaseUrl}/characters/${id}.jpg`;
+	}
+	getPlanetImageUrl = (id) => {
+		return `${this.imageBaseUrl}/planets/${id}.jpg`;
+	}
+	getStarshipImageUrl = (id) => {
+		return `${this.imageBaseUrl}/starships/${id}.jpg`;
+	}
 	getPeople = async () => {
 		const people = (await getResource(this.peopleUrl)).results;
 		return people.map((person) => this._transformPerson(person));

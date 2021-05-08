@@ -1,30 +1,28 @@
 import React, { Component } from "react";
 import Spinner from "../Spinner/Spinner";
 import ErrorIndicator from "../ErrorIndicator/ErrorIndicator";
-import PersonView from "../PersonView/PersonView";
-import StarDbAPIService from "../../api";
-import "./PersonDetails.css";
-const apiService = new StarDbAPIService();
+import ItemView from "../ItemView/ItemView";
+import "./ItemDetails.css";
 
-export default class PersonDetails extends Component {
+export default class ItemDetails extends Component {
 	state = {
-		person: {},
+		item: {},
 		isLoading: false,
 		isError: false
 	}
-	updatePerson() {
-		const {personId} = this.props;
-		if (!personId) return;
+	updateItem() {
+		const {itemId} = this.props;
+		if (!itemId) return;
 		this.setState({
 			isLoading: true,
 		});
-		apiService.getPersonById(personId)
+		this.props.getItemById(itemId)
 		.then(this.onDataLoaded)
 		.catch(this.onError)
 	}
-	onDataLoaded = (person) => {
+	onDataLoaded = (item) => {
 		this.setState({
-			person,
+			item,
 			isLoading: false,
 		})
 	}
@@ -35,22 +33,25 @@ export default class PersonDetails extends Component {
 		});
 	}
 	componentDidMount() {
-		this.updatePerson();
+		this.updateItem();
 	}
 
 	componentDidUpdate(prevProps) {
-		if (this.props.personId === prevProps.personId) return;
-		this.updatePerson();
+		if (this.props.itemId === prevProps.itemId) return;
+		this.updateItem();
 	}
 
 	render() {
-		const { person, isLoading, isError } = this.state;
+		const { item, isLoading, isError } = this.state;
 		return (
 			<div className="person-details card">
 			{
 				isError ? <ErrorIndicator/> :
 					isLoading ? <Spinner/> :
-						<PersonView person={person}/>
+						<ItemView
+							item={item}
+							getImageUrl={this.props.getImageUrl}
+						/>
 			}
 			</div>
 		)
